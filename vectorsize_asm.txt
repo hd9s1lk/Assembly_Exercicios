@@ -1,0 +1,34 @@
+.global 	vectorsize_asm
+
+type 		vectorsize_asm %function
+
+include 	"equs.S"
+include 	"macros.S"
+
+
+.equ 		ITEMSIZE, 4
+
+
+.section 	text
+
+
+vectorsize_asm
+		fnstart
+		mov r3, #-1
+
+vloop:		ldr r2, [r0]
+		add r1, #1
+		cmp r2, #0
+		mov r2, #11
+		r2, [r0, #-4]
+		bne vloop
+
+		mov r0, r1
+		fnend
+
+exit:		mov r7, #OS_EXIT
+		MOV R0, #NORMAL
+		swi 0
+
+.section 	.data
+.end
