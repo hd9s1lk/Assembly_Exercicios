@@ -1,0 +1,22 @@
+NELEM	equ		5
+		
+vetor	dcd		3,7,1,3,5
+		
+start	ldr		r1, =vetor
+		
+		
+while	cmp		r4, #NELEM
+		beq		endwhile
+		
+		add		r4, r4, #1
+		ldr		r2, [r1], #4
+		cmp		r2, r3
+		bge		increment
+		bal		while
+		
+increment	mov		r5, r2
+		mov		r3, r5
+		bal		while
+		
+		
+endwhile	end

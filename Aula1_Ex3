@@ -1,0 +1,10 @@
+start	mov		r0, #0b11110000
+		mov		r1, #0b10101010
+		mov		r2, #0b01010101
+		mov		r3, #0b00001111
+		mov		r4, #0b1
+		eor		r5, r0, r4
+		eor		r6, r1, r4
+		eor		r7, r2, r4
+		eor		r8, r3, r4
+		end

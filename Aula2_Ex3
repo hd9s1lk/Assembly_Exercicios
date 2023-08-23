@@ -1,0 +1,22 @@
+start		mov		r1, #3
+			mov		r2, #2
+			mov		r3, #3
+			cmp		r3,r2
+			beq		comparacao1
+			bne		comparacaoDIF
+			
+comparacaoDIF	cmp		r3,r1
+			beq		comparacao2
+			
+			
+comparacao1	add		r0, r0, #1
+			cmp		r3, r1
+			beq		comparacao2
+			
+comparacao2	add		r0, r0, #1
+			cmp		r2, r1
+			beq		final
+			
+final		add		r0, r0, #1
+			end
+			

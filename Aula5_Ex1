@@ -1,0 +1,34 @@
+			;program_data_space_________________________________________________
+LENGHT_1_2	fill		4
+STR1			dcb		0,1,0,1,1,3,0,4
+STR2			dcb		0,2,3,4,5,0,2,0
+			
+			;program_code_space_________________________________________________
+START		adr		r0, STR1		;put parameter R0 (address) with STR1
+			adr		r1, STR2	 	;put parameter r1 (address) with STR2
+			bl		LEN2S			;call STRLEN LR=PC and PC=STRLEN
+			adr		r0, LENGHT_1_2
+			str		r2, [r0] 	 	;store count R2 (output of STRLEN) in memory
+			end		;end of program, back to system
+			
+			;subroutines_code_space_____________________________________________
+LEN2S		str		lr, [sp, #-4]!	;save LR / R14 into stack, PUSH LR
+			str		r1, [sp, #-4]!	;save R1 to the stack, to be preserve, PUSH R1
+			bl		STRLEN			;call STRLEN LR=PC and PC=STRLEN
+			ldr		r1, [sp], #4	;restore R1 from stack, POP R1
+			mov		r0, r1			;now string in R1
+			str		r2, [sp, #-4]! ;save R2 to the stack, to be preserve, PUSH R2
+			bl		STRLEN			;call STRLEN LR=PC and PC=STRLEN
+			ldr		r3, [sp], #4	;restore R2 from stack to R3, POP R3
+			add		r2, r2, r3		;add sizes, R2 from STR2 and R3 from STR
+			ldr		lr, [sp], #4	;restore LR / R14 from stack, POP LR
+			mov		pc, lr 	  		;return where it was called PC=LR
+			
+STRLEN		mov		r2, r0			;save start in R2
+STRLENLOOP
+			ldrb		r1, [r0], #1	;get data from memory and post increment for next
+			cmp		r1, #0			;check if 0
+			beq		STRLENLOOP
+			sub		r2, r0, r2		;calculate distance (current - start)
+			add		r2, r2, #1
+			mov		pc, lr
